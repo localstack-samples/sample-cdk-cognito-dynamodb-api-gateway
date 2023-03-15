@@ -11,9 +11,9 @@ const app = new cdk.App();
 
 // pre-flight checks - set common variables that are used across all stacks
 const awsRegion: string | undefined =
-  process.env.AWS_REGION || app.node.tryGetContext("aws_region");
+  process.env.AWS_REGION || 'us-east-1'
 const awsAccount: string | undefined =
-  process.env.AWS_ACCOUNT || app.node.tryGetContext("aws_account");
+  process.env.AWS_ACCOUNT || '000000000000'
 
 if (!awsRegion || !awsAccount) {
   throw new Error(
