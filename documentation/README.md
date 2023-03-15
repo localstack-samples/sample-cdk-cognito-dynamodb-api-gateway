@@ -1,6 +1,4 @@
-## How to implement Step-up Authentication using Amazon Cognito
-
-This repository contains accompanying source code for the AWS Blog post, [How to implement Step-up Authentication using Amazon Cognito](#).
+## Documentation — How to implement Step-up Authentication using Amazon Cognito
 
 We will illustrate how to perform step-up authentication using Amazon API Gateway Lambda Authorizer, Lambda functions, Amazon Cognito and Amazon DynamoDB. Let us first review the architecture in next section.
 
@@ -20,7 +18,7 @@ Note that if you decide to use API serving layer other than Amazon API Gateway, 
 
 The reference architecture is show below shows.
 
-![](documentation/step-up-auth-design.png)
+![](step-up-auth-design.png)
 
 Let us traverse how user's API's request are handled by the solution, and how the user state is "elevated" by going through additional challenge before they can successfully invoke a privilege API.
 
@@ -45,7 +43,7 @@ Let us traverse how user's API's request are handled by the solution, and how th
 
 These sequences are better illustrated in the sequence diagram below.
 
-![](documentation/step-up-auth-sequences.png)
+![](step-up-auth-sequences.png)
 
 ## Implementation details
 
@@ -127,7 +125,7 @@ The initiate endpoint is called by the frontend after the API Gateway returns a 
 
 The initiate endpoint checks several preferences (provided by the Cognito [GetUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetUser.html) API action) to determine whether the user prefers software token or SMS MFA, including the user’s preferred MFA setting, their list of enabled MFA methods, and whether or not they have a verified phone number. See the below flowchart for the full decision logic.
 
-![](documentation/initiate-auth-mfa-decision.png)
+![](initiate-auth-mfa-decision.png)
 
 The initiate endpoint does not require any extra parameters, it only requires the Cognito access token to be passed in the Authorization header of the request. It uses the access token to call the Cognito [GetUser](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetUser.html) and [GetUserAttributeVerificationCode](https://docs.aws.amazon.com/cognito-user-identity-pools/latest/APIReference/API_GetUserAttributeVerificationCode.html) API actions on behalf of the user.
 
@@ -223,31 +221,31 @@ Log into your AWS account and go to DynamoDB service console.  Locate the step-u
 
 Launch your web browser and to load the CloudFront URL.  You will be presented with a login screen.
 
-![](documentation/web-app-1.png)
+![](web-app-1.png)
 
 Register a new user.  Make sure that the email address and phone numbers are valid.  Upon clicking Register button, you will be prompted to enter verification code.  Check your email for the verification code.
 
-![](documentation/web-app-2.png)
+![](web-app-2.png)
 
 You will be sent back to the login screen.  Login in with the user that you just registered.  You will see the welcome screen.
 
-![](documentation/web-app-3.png)
+![](web-app-3.png)
 
 Go into Setting menu and select SMS as Preferred MFA.
 
-![](documentation/web-app-4.png)
+![](web-app-4.png)
 
 Now, go into StepUp Auth menu and invoke Transfer API.  You should see a 401 challenge response.  At the same time, you should receive a one-time-password (OTP) on your device from Cognito.  
 
-![](documentation/web-app-5.png)
+![](web-app-5.png)
 
 Use that OTP and fill “Enter OTP” field.  Hit the submit button.  This sends the OTP to respond-to-challenge endpoint.  Once OTP is verified, the endpoint will return a success or failure.  
 
-![](documentation/web-app-6.png)
+![](web-app-6.png)
 
 If the verification passes, you can reinvoke the transfer API by hitting  Invoke Transfer API button.
 
-![](documentation/web-app-7.png)
+![](web-app-7.png)
 
 Congratulations!  You’ve successfully performed a step-up authentication.
 
@@ -262,11 +260,3 @@ Step-up flow for a single user may include multiple API calls like GetUser, GetU
 ## Conclusion
 
 In this blog post, you saw how to implement step-up or step-up authentication for privileged APIs.  The solution uses Amazon Cognito User Pools for user management.
-## Security
-
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
-
-## License
-
-This library is licensed under the MIT-0 License. See the LICENSE file.
-
