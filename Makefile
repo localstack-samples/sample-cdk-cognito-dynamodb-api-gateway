@@ -16,10 +16,9 @@ install:
 package-lambda:
 		cd deployment && ./build.sh;
 
-
 ## Deploy the infrastructure
 deploy:
-		pushd deployment && ./deploy-local.sh && popd;
+		cd deployment && ./deploy-local.sh;
 
 ## Start LocalStack in detached mode
 start:
