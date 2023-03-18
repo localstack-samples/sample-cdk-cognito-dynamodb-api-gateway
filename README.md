@@ -7,11 +7,11 @@
 | Integrations | CDK, AWS CLI                                                         |
 | Categories   | Serverless; Security, Identity, and Compliance;                      |
 | Level        | Advanced                                                             |
-| GitHub       | [Repository link](https://github.com/localstack/step-up-auth)        |
+| GitHub       | [Repository link](https://github.com/localstack/step-up-auth-sample) |
 
 ## Introduction
 
-The Step-up Authentication sample using Cognito, DynamoDB, API Gateway Lambda Authorizer, and Lambda functions demonstrates how to build and launch a Step-up workflow engine with an API Serving Layer on your local machine. This application sample uses Cognito as an identity provider, API Gateway with Authorizer Lambda function to trigger the Step-up workflow engine, and DynamoDB Service as the persistent layer the Step-up workflow Engine uses. The application client is implemented using ReactJS and Amplify, which allows us to invoke a privileged API and go through Step-up authentication. With the LocalSurf browser plugin, you can test the application on your local machine by making API requests to LocalStack instead of AWS to allow you to use the production code locally without changes. Refer to the [developer documentation](documentation/README.md) for additional design documentation and implementation details.
+The Step-up Authentication sample using Cognito, DynamoDB, API Gateway Lambda Authorizer, and Lambda functions demonstrates how to build and launch a Step-up workflow engine with an API Serving Layer on your local machine. This application sample uses Cognito as an identity provider, API Gateway with Authorizer Lambda function to trigger the Step-up workflow engine, and DynamoDB Service as the persistent layer the Step-up workflow Engine uses. The application client is implemented using ReactJS and Amplify, which allows us to invoke a privileged API and go through Step-up authentication. With the LocalSurf browser plugin, you can test the application on your local machine by making API requests to LocalStack instead of AWS to allow you to use the production code locally without changes. Refer to the [official AWS blogs](#learn-more) for additional design documentation and implementation details.
 
 ## Architecture diagram
 
