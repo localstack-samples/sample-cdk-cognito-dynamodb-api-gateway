@@ -115,6 +115,39 @@ You should be able to see your session's information on the landing page.
 ![app-interface](images/app-interface.png)
 
 
+### Cloud Pods
+
+
+[Cloud Pods](https://docs.localstack.cloud/user-guide/tools/cloud-pods/) will improve your team's collaborating in cloud development workflows.
+Cloud Pods are a mechanism that allows you to take a snapshot of the state in your current LocalStack instance, persist it to a storage backend, and easily share it with your colleagues.
+
+To create a Cloud Pod, you can run the following commands:
+
+in your root directory (cloud-pod folder already exists):
+
+```localstack pod save cloud-pod/my-pod```
+
+or simply:
+
+```localstack pod save file://<path_to_disk>/my-pod```
+
+The above command will create a zip file named my-pod to the specified location on the disk.
+
+The `load` command is the inverse operation of save. It retrieves the content of a previously stored Cloud Pod
+from the local file system or the Cloud Pod’s platform and injects it into the application runtime. To use the existing pod run:
+
+```localstack pod load file://step-up-auth-pod```
+
+In order to navigate to your application, you need the CloudFront distribution URL. The easiest way you can get the URL is by navigating to the CloudFront console in the LocalStack dashboard.
+Navigate to `app.localstack.cloud`, then Resources -> CloudFormation -> StepUpAuthWebUiCloudfront. Your distribution ID will be at the end of the ARN:
+
+![distribution-id](images/distribution-id.png)
+
+Copy the distribution ID and paste it in the following URL:
+
+```https://<distribution-id>.cloudfront.localhost.localstack.cloud```
+
+
 ## Learn more
 
 The sample application is based on a [public AWS sample app](https://github.com/aws-samples/step-up-auth) that deploys a Step-up workflow engine on AWS. See these AWS blog posts for more details: 
