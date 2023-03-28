@@ -52,9 +52,6 @@ class Main extends Component {
             <Menu.Item name="home">
               <Link to="/main" className="menu-text">Home</Link>
             </Menu.Item>
-            <Menu.Item name="setting">
-              <Link to="setting" className="menu-text">Setting</Link>
-            </Menu.Item>
             <Menu.Item name="stepup">
               <Link to="stepup" className="menu-text">StepUp Auth</Link>
             </Menu.Item>

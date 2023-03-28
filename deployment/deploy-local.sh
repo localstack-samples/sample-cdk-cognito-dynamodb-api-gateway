@@ -38,12 +38,13 @@ outputs_file="/tmp/$$.cdk-infrastructure-outputs.json"
 echo
 echo "Initiating CDK deployment.."
 
-yarn add @aws-cdk/core
+yarn add @aws-cdk/core@1.197.0
 
-# Bootstrap CDK
+echo "Bootstrap CDK"
 cdklocal bootstrap aws://000000000000/us-east-1 || exit 4
 
-# Deployment for CDK stacks
+echo "Deployment for CDK stacks"
+
 cdklocal deploy \
     --require-approval never \
     --outputs-file "${outputs_file}" \

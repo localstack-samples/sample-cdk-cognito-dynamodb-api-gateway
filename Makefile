@@ -13,7 +13,7 @@ install:
 		@which awslocal || pip install awscli-local
 
 # Deploy the infrastructure
-package-lambda:
+build:
 		cd deployment && ./build.sh;
 
 ## Deploy the infrastructure
