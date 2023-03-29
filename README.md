@@ -1,4 +1,4 @@
-# Step-up Authentication using Amazon Cognito, Amazon DynamoDB, Amazon API Gateway Lambda Authorizer, and Lambda functions
+# Step-up Authentication using Amazon Cognito, DynamoDB, API Gateway Lambda Authorizer, and Lambda functions
 
 | Key          | Value                                                                |
 | ------------ | -------------------------------------------------------------------- |
