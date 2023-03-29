@@ -5,7 +5,7 @@
 | Environment  | <img src="https://img.shields.io/badge/LocalStack-deploys-4D29B4.svg?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAKgAAACoABZrFArwAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAALbSURBVHic7ZpNaxNRFIafczNTGIq0G2M7pXWRlRv3Lusf8AMFEQT3guDWhX9BcC/uFAr1B4igLgSF4EYDtsuQ3M5GYrTaj3Tmui2SpMnM3PlK3m1uzjnPw8xw50MoaNrttl+r1e4CNRv1jTG/+v3+c8dG8TSilHoAPLZVX0RYWlraUbYaJI2IuLZ7KKUWCisgq8wF5D1A3rF+EQyCYPHo6Ghh3BrP8wb1en3f9izDYlVAp9O5EkXRB8dxxl7QBoNBpLW+7fv+a5vzDIvVU0BELhpjJrmaK2NMw+YsIxunUaTZbLrdbveZ1vpmGvWyTOJToNlsuqurq1vAdWPMeSDzwzhJEh0Bp+FTmifzxBZQBXiIKaAq8BBDQJXgYUoBVYOHKQRUER4mFFBVeJhAQJXh4QwBVYeHMQJmAR5GCJgVeBgiYJbg4T8BswYPp+4GW63WwvLy8hZwLcd5TudvBj3+OFBIeA4PD596nvc1iiIrD21qtdr+ysrKR8cY42itCwUP0Gg0+sC27T5qb2/vMunB/0ipTmZxfN//orW+BCwmrGV6vd63BP9P2j9WxGbxbrd7B3g14fLfwFsROUlzBmNM33XdR6Meuxfp5eg54IYxJvXCx8fHL4F3w36blTdDI4/0WREwMnMBeQ+Qd+YC8h4g78wF5D1A3rEqwBiT6q4ubpRSI+ewuhP0PO/NwcHBExHJZZ8PICI/e73ep7z6zzNPwWP1djhuOp3OfRG5kLROFEXv19fXP49bU6TbYQDa7XZDRF6kUUtEtoFb49YUbh/gOM7YbwqnyG4URQ/PWlQ4ASllNwzDzY2NDX3WwioKmBgeqidgKnioloCp4aE6AmLBQzUExIaH8gtIBA/lFrCTFB7KK2AnDMOrSeGhnAJSg4fyCUgVHsolIHV4KI8AK/BQDgHW4KH4AqzCQwEfiIRheKKUAvjuuu7m2tpakPdMmcYYI1rre0EQ1LPo9w82qyNziMdZ3AAAAABJRU5ErkJggg=="> <img src="https://img.shields.io/badge/AWS-deploys-F29100.svg?logo=amazon">                                                                     |
 | Services     | Cognito, DynamoDB, API Gateway, Lambda, CloudFront, S3, IAM, Amplify |
 | Integrations | CDK, AWS CLI                                                         |
-| Categories   | Serverless; Security, Identity, and Compliance;                      |
+| Categories   | Serverless; Security, Identity, and Compliance                       |
 | Level        | Advanced                                                             |
 | GitHub       | [Repository link](https://github.com/localstack/step-up-auth-sample) |
 
@@ -40,16 +40,16 @@ We are using the following AWS services and their features to build our infrastr
 
 Start LocalStack Pro with the appropriate configuration to enable the S3 website to send requests to the container APIs:
 
-```
+```bash
 export LOCALSTACK_API_KEY=<your-api-key>
 ```
 Then run:
 
-```make start```
+```bash
+EXTRA_CORS_ALLOWED_ORIGINS=* localstack start -d
+```
 
-If we disect the command, we can see a few other environment variables that are set:
 The `EXTRA_CORS_ALLOWED_ORIGINS` configuration variable allows our website to send requests through the Amplify Web Application to the privileged API to enable us to demonstrate step-up authentication.
-`PROVIDER_OVERRIDE_LAMBDA` points to the new Lambda provider that we will be using. This offers a completely re-written implementation with improved performance, better feature coverage, and AWS parity.
 
 ## Instructions
 
@@ -94,59 +94,59 @@ To access the web application, copy and paste the CloudFront distribution URL in
 
 ### Testing the application
 
-Before you continue, make sure you have the [LocalSurf](https://docs.localstack.cloud/user-guide/tools/localsurf/) browser plugin installed and enabled.
-Ideally, your applications should use configuration files to specify the AWS services that they use. However, in this sample application, we inherited hard-coded AWS service endpoints, which we need to repoint to LocalStack. We can do this using the LocalSurf browser plugin.
+To run the application, we need the [LocalSurf](https://docs.localstack.cloud/user-guide/tools/localsurf/) browser plugin installed and enabled. Ideally, your applications should use configuration files to specify their AWS services. However, we inherited hard-coded AWS service endpoints in this sample application, which we need to repoint to LocalStack. We can do this using the LocalSurf browser plugin.
 
-![localsurf](images/localsurf.png)
+![LocalSurf Extension snapshot showing that local mode has been enabled](images/localsurf.png)
 
-Your application's landing page contains a sing in form. In order to sign in, you need to have a user account. You can create a new user account by clicking the **Register** button.
-A new form will be displayed where you can enter your username, password, email address, and phone number. 
+Your application's landing page contains a sing in form. To sign in, you need to have a user account. You can create a new user account by clicking the **Register** button.
 
-![register-form](images/register-form.png)
+To test the web application, open your application URL in your browser that was displayed on the terminal. Enter your username, password, email address, and phone number in the form displayed on the application.
 
-Once you register, Cognito will generate a verification code. You can enter the verification code in the form and click the **Verify** button.
-With extra SMTP configuration, you can also have the verification code sent to your email address. We're gonna skip that step for now and procure the code directly from the LocalStack logs:
+![Registration Form where we specify the username, password, email address, and phone number to create a new user](images/register-form.png)
 
-![cognito-code](images/cognito-code.png)
+Click on the **Register** button. Cognito will generate a verification code, which will be displayed in the terminal in the LocalStack logs. Use this code to confirm your Account. 
 
-After you verify your account, you will be redirected to the application's landing page. You can now sign in with your username and password.
-You should be able to see your session's information on the landing page.
+Once you have confirmed your Account, you can sign in to the application with your username and password. You should see your session's information on the landing page.
 
-![app-interface](images/app-interface.png)
-
+![Step-up auth sample web client showcasing the session information after a successful sign-in](images/app-interface.png)
 
 ### Cloud Pods
 
+[Cloud Pods](https://docs.localstack.cloud/user-guide/tools/cloud-pods/) are a mechanism that allows you to take a snapshot of the state in your current LocalStack instance, persist it to a storage backend, and easily share it with your team members.
 
-[Cloud Pods](https://docs.localstack.cloud/user-guide/tools/cloud-pods/) will improve your team's collaborating in cloud development workflows.
-Cloud Pods are a mechanism that allows you to take a snapshot of the state in your current LocalStack instance, persist it to a storage backend, and easily share it with your colleagues.
+To save your local AWS infrastructure state using Cloud Pods, you can use the `save` command with a desired name for your Cloud Pod as the first argument:
 
-To create a Cloud Pod, you can run the following commands:
+```bash
+localstack pod save step-up-auth-pod
+```
 
-in your root directory (cloud-pod folder already exists):
+You can alternatively use the `save` command with a local file path as the first argument to save the Cloud Pod on your local file system and not the LocalStack Web Application:
 
-```localstack pod save cloud-pod/my-pod```
+```bash
+localstack pod save file://<path_to_disk>/step-up-auth-pod
+```
 
-or simply:
+The above command will create a zip file named `step-up-auth-pod` to the specified location on the disk.
 
-```localstack pod save file://<path_to_disk>/my-pod```
+The `load` command is the inverse operation of the `save` command. It retrieves the content of a previously stored Cloud Pod from the local file system or the LocalStack Web Application and injects it into the application runtime. On an alternate machine, start LocalStack with the API key configured, and pull the Cloud Pod we created previously using the `load` command with the Cloud Pod name as the first argument:
 
-The above command will create a zip file named my-pod to the specified location on the disk.
+```bash
+localstack pod load step-up-auth-pod
+```
 
-The `load` command is the inverse operation of save. It retrieves the content of a previously stored Cloud Pod
-from the local file system or the Cloud Pod’s platform and injects it into the application runtime. To use the existing pod run:
+Alternatively, you can use load the Cloud Pod with the local file path as the first argument:
 
-```localstack pod load file://step-up-auth-pod```
+```bash
+localstack pod load file://<path_to_disk>/step-up-auth-pod
+```
 
-In order to navigate to your application, you need the CloudFront distribution URL. The easiest way you can get the URL is by navigating to the CloudFront console in the LocalStack dashboard.
-Navigate to `app.localstack.cloud`, then Resources -> CloudFormation -> StepUpAuthWebUiCloudfront. Your distribution ID will be at the end of the ARN:
+To ensure everything is set in place, follow the previous steps of setting the configuration variables and query the application URL. The state will be restored, and you should be able to see the same data as before.
 
-![distribution-id](images/distribution-id.png)
+To navigate to your application, fetch the CloudFront Distribution URL from [LocalStack Web Application](https://app.localstack.cloud). Navigate to the [CloudFormation Resource Browser](https://app.localstack.cloud/resources/cloudformation/stacks) and click on **StepUpAuthWebUiCloudfront**. Your Distribution ID will be at the end of the ARN:
 
-Copy the distribution ID and paste it in the following URL:
+![LocalStack Web Application showing the Distribution ID on StepUpAuthWebUiCloudfront CloudFormation stack](images/distribution-id.png)
 
-```https://<distribution-id>.cloudfront.localhost.localstack.cloud```
-
+Copy the distribution ID and paste it in the URL: **https://<DISTRIBUTION_ID>.cloudfront.localhost.localstack.cloud**.
 
 ## Learn more
 
