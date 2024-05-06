@@ -50,7 +50,7 @@ export class CognitoStack extends cdk.Stack {
       userPool: this.userPool,
       generateSecret: false,
       enableTokenRevocation: false,
-      refreshTokenValidity: cdk.Duration.days(1),
+      // refreshTokenValidity: cdk.Duration.days(1),
       authFlows: {
         userPassword: true,
         userSrp: true,

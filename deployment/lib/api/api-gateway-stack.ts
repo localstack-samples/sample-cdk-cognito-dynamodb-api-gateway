@@ -5,10 +5,12 @@ import * as path from 'path';
 import * as cdk from '@aws-cdk/core';
 import * as apigateway from '@aws-cdk/aws-apigateway';
 import * as lambda from '@aws-cdk/aws-lambda';
+import { CfnFunction } from '@aws-cdk/aws-lambda';
 import { Asset } from '@aws-cdk/aws-s3-assets';
 import * as cognito from '@aws-cdk/aws-cognito';
 import * as iam from '@aws-cdk/aws-iam';
 import { CfnOutput } from "@aws-cdk/core";
+import { TIMEOUT } from 'dns';
 
 export interface ApiGatewayProps extends cdk.StackProps {
   readonly environmentPrefix?: string;
@@ -50,7 +52,7 @@ export class ApiGatewayStack extends cdk.Stack {
       code: lambda.Code.fromBucket(stepUpAuthorizerAsset.bucket, stepUpAuthorizerAsset.s3ObjectKey),
       runtime: lambda.Runtime.NODEJS_16_X,
       handler: 'src/index.handler',
-      timeout: cdk.Duration.seconds(30),
+      // timeout: cdk.Duration.seconds(30),
       memorySize: 512,
       role: props.lambdaExecutionRole,
       environment: {
@@ -60,11 +62,17 @@ export class ApiGatewayStack extends cdk.Stack {
         NODE_ENV: props.nodeEnvironment || ''
       }
     });
+
+    (stepUpAuthorizerFunc.node.defaultChild as CfnFunction).addPropertyOverride(
+      'Runtime',
+      'nodejs18.x',
+    );
+
     const requestAuthorizer = new apigateway.RequestAuthorizer(this, 'step-up-authorizer', {
       identitySources: [apigateway.IdentitySource.header('Authorization')],
       handler: stepUpAuthorizerFunc,
       assumeRole: props.apigatewayLambdaAuthorizerRole,
-      resultsCacheTtl: cdk.Duration.seconds(0)
+      // resultsCacheTtl: cdk.Duration.seconds(0)
     });
 
     // ----------------------------------------

@@ -7,6 +7,7 @@ import * as lambda from '@aws-cdk/aws-lambda';
 import * as cognito from '@aws-cdk/aws-cognito';
 import { Asset } from '@aws-cdk/aws-s3-assets';
 import * as iam from '@aws-cdk/aws-iam';
+import { CfnFunction } from '@aws-cdk/aws-lambda';
 
 export interface LambdaProps extends cdk.StackProps {
   readonly environmentPrefix?: string;
@@ -37,7 +38,7 @@ export class LambdaStack extends cdk.Stack {
       code: lambda.Code.fromBucket(stepUpInitiateAsset.bucket, stepUpInitiateAsset.s3ObjectKey),
       runtime: lambda.Runtime.NODEJS_16_X,
       handler: 'src/index.handler',
-      timeout: cdk.Duration.seconds(30),
+      // timeout: cdk.Duration.seconds(30),
       memorySize: 512,
       role: props.lambdaExecutionRole,
       environment: {
@@ -45,6 +46,11 @@ export class LambdaStack extends cdk.Stack {
         NODE_ENV: props.nodeEnvironment || ''
       }
     });
+
+    (this.stepUpInitiateFunc.node.defaultChild as CfnFunction).addPropertyOverride(
+      'Runtime',
+      'nodejs18.x',
+    );
 
     // ----------------------------------------
     //      step-up-auth-challenge lambda
@@ -58,7 +64,7 @@ export class LambdaStack extends cdk.Stack {
       code: lambda.Code.fromBucket(stepUpChallengeAsset.bucket, stepUpChallengeAsset.s3ObjectKey),
       runtime: lambda.Runtime.NODEJS_16_X,
       handler: 'src/index.handler',
-      timeout: cdk.Duration.seconds(30),
+      // timeout: cdk.Duration.seconds(30),
       memorySize: 512,
       role: props.lambdaExecutionRole,
       environment: {
@@ -68,6 +74,11 @@ export class LambdaStack extends cdk.Stack {
         NODE_ENV: props.nodeEnvironment || ''
       }
     });
+
+    (this.stepUpChallengeFunc.node.defaultChild as CfnFunction).addPropertyOverride(
+      'Runtime',
+      'nodejs18.x',
+    );
 
     // ----------------------------------------
     //      step-up-auth-sample-api lambda
@@ -81,7 +92,7 @@ export class LambdaStack extends cdk.Stack {
       code: lambda.Code.fromBucket(stepUpSampleApiAsset.bucket, stepUpSampleApiAsset.s3ObjectKey),
       runtime: lambda.Runtime.NODEJS_16_X,
       handler: 'src/index.handler',
-      timeout: cdk.Duration.seconds(30),
+      // timeout: cdk.Duration.seconds(30),
       memorySize: 512,
       role: props.lambdaExecutionRole,
       environment: {
@@ -89,5 +100,10 @@ export class LambdaStack extends cdk.Stack {
         NODE_ENV: props.nodeEnvironment || ''
       }
     });
+
+    (this.stepUpSampleApiFunc.node.defaultChild as CfnFunction).addPropertyOverride(
+      'Runtime',
+      'nodejs18.x',
+    );
   }
 }
