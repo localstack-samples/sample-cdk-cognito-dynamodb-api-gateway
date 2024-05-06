@@ -41,7 +41,7 @@ We are using the following AWS services and their features to build our infrastr
 Start LocalStack Pro with the appropriate configuration to enable the S3 website to send requests to the container APIs:
 
 ```bash
-export LOCALSTACK_API_KEY=<your-api-key>
+export LOCALSTACK_AUTH_TOKEN=<your-auth-token>
 ```
 Then run:
 
@@ -109,44 +109,6 @@ Click on the **Register** button. Cognito will generate a verification code, whi
 Once you have confirmed your Account, you can sign in to the application with your username and password. You should see your session's information on the landing page.
 
 ![Step-up auth sample web client showcasing the session information after a successful sign-in](images/app-interface.png)
-
-### Cloud Pods
-
-[Cloud Pods](https://docs.localstack.cloud/user-guide/tools/cloud-pods/) are a mechanism that allows you to take a snapshot of the state in your current LocalStack instance, persist it to a storage backend, and easily share it with your team members.
-
-To save your local AWS infrastructure state using Cloud Pods, you can use the `save` command with a desired name for your Cloud Pod as the first argument:
-
-```bash
-localstack pod save step-up-auth-pod
-```
-
-You can alternatively use the `save` command with a local file path as the first argument to save the Cloud Pod on your local file system and not the LocalStack Web Application:
-
-```bash
-localstack pod save file://<path_to_disk>/step-up-auth-pod
-```
-
-The above command will create a zip file named `step-up-auth-pod` to the specified location on the disk.
-
-The `load` command is the inverse operation of the `save` command. It retrieves the content of a previously stored Cloud Pod from the local file system or the LocalStack Web Application and injects it into the application runtime. On an alternate machine, start LocalStack with the API key configured, and pull the Cloud Pod we created previously using the `load` command with the Cloud Pod name as the first argument:
-
-```bash
-localstack pod load step-up-auth-pod
-```
-
-Alternatively, you can use load the Cloud Pod with the local file path as the first argument:
-
-```bash
-localstack pod load file://<path_to_disk>/step-up-auth-pod
-```
-
-To ensure everything is set in place, follow the previous steps of setting the configuration variables and query the application URL. The state will be restored, and you should be able to see the same data as before.
-
-To navigate to your application, fetch the CloudFront Distribution URL from [LocalStack Web Application](https://app.localstack.cloud). Navigate to the [CloudFormation Resource Browser](https://app.localstack.cloud/resources/cloudformation/stacks) and click on **StepUpAuthWebUiCloudfront**. Your Distribution ID will be at the end of the ARN:
-
-![LocalStack Web Application showing the Distribution ID on StepUpAuthWebUiCloudfront CloudFormation stack](images/distribution-id.png)
-
-Copy the distribution ID and paste it in the URL: **https://<DISTRIBUTION_ID>.cloudfront.localhost.localstack.cloud**.
 
 ## Learn more
 
