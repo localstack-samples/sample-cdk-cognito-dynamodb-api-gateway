@@ -41,7 +41,7 @@ We are using the following AWS services and their features to build our infrastr
 Start LocalStack Pro with the appropriate configuration to enable the S3 website to send requests to the container APIs:
 
 ```bash
-export LOCALSTACK_API_KEY=<your-api-key>
+export LOCALSTACK_AUTH_TOKEN=<your-auth-token>
 ```
 Then run:
 
