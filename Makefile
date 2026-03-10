@@ -22,7 +22,8 @@ deploy:
 
 ## Start LocalStack in detached mode
 start:
-		EXTRA_CORS_ALLOWED_ORIGINS=* PROVIDER_OVERRIDE_LAMBDA=asf localstack start -d
+		@test -n "${LOCALSTACK_AUTH_TOKEN}" || (echo "LOCALSTACK_AUTH_TOKEN is not set. Find your token at https://app.localstack.cloud/workspace/auth-token"; exit 1)
+		EXTRA_CORS_ALLOWED_ORIGINS=* PROVIDER_OVERRIDE_LAMBDA=asf LOCALSTACK_AUTH_TOKEN=$(LOCALSTACK_AUTH_TOKEN) localstack start -d
 
 ## Stop the Running LocalStack container
 stop:
