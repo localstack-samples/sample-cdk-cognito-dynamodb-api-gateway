@@ -32,21 +32,21 @@ We are using the following AWS services and their features to build our infrastr
 
 ## Prerequisites
 
-- LocalStack Pro
+- A valid [LocalStack for AWS license](https://localstack.cloud/pricing). Your license provides a [`LOCALSTACK_AUTH_TOKEN`](https://docs.localstack.cloud/getting-started/auth-token/) to activate LocalStack.
+- [`localstack` CLI](https://docs.localstack.cloud/getting-started/installation/#localstack-cli).
 - [LocalSurf](https://docs.localstack.cloud/user-guide/tools/localsurf/) to repoint AWS service calls to LocalStack.
 - [AWS CLI](https://docs.localstack.cloud/user-guide/integrations/aws-cli/) with the `awslocal` wrapper.
 - [CDK](https://docs.localstack.cloud/user-guide/integrations/aws-cdk/) with the `cdklocal` wrapper.
-- [NodeJS v18.0.0](https://nodejs.org/en/download/) with `npm` package manager.
+- [Node.js](https://nodejs.org/en/download/) with `npm` package manager.
 
-Start LocalStack Pro with the appropriate configuration to enable the S3 website to send requests to the container APIs:
+## Start LocalStack
+
+Start LocalStack with the `LOCALSTACK_AUTH_TOKEN` pre-configured:
 
 ```bash
 export LOCALSTACK_AUTH_TOKEN=<your-auth-token>
-```
-Then run:
-
-```bash
-EXTRA_CORS_ALLOWED_ORIGINS=* localstack start -d
+make start
+make ready
 ```
 
 The `EXTRA_CORS_ALLOWED_ORIGINS` configuration variable allows our website to send requests through the Amplify Web Application to the privileged API to enable us to demonstrate step-up authentication.
