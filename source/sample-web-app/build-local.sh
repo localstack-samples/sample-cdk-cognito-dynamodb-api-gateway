@@ -13,7 +13,7 @@ trap_signals() {
 # PREFLIGHT CHECK
 
 if [ -z "$AWS_CLI_BIN" ]; then
-    AWS_CLI_BIN="awslocal"
+    AWS_CLI_BIN="lstk aws"
 fi
 
 #####################################################################
