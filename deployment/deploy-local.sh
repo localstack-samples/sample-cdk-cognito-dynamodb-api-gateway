@@ -16,7 +16,7 @@ trap_signals() {
 # PREFLIGHT CHECK
 
 if [ -z "$AWS_CLI_BIN" ]; then
-    AWS_CLI_BIN="awslocal"
+    AWS_CLI_BIN="lstk aws"
 fi
 
 #####################################################################
@@ -41,11 +41,11 @@ echo "Initiating CDK deployment.."
 yarn add @aws-cdk/core@1.197.0
 
 echo "Bootstrap CDK"
-cdklocal bootstrap aws://000000000000/us-east-1 || exit 4
+lstk cdk bootstrap aws://000000000000/us-east-1 || exit 4
 
 echo "Deployment for CDK stacks"
 
-cdklocal deploy \
+lstk cdk deploy \
     --require-approval never \
     --outputs-file "${outputs_file}" \
     --all || exit 5

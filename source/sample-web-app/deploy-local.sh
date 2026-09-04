@@ -7,7 +7,7 @@
 # PREFLIGHT CHECK
 
 if [ -z "$AWS_CLI_BIN" ]; then
-    AWS_CLI_BIN="awslocal"
+    AWS_CLI_BIN="lstk aws"
 fi
 
 #####################################################################
@@ -25,7 +25,7 @@ fi
 
 echo "Copying dist contents to Web UI S3 bucket: ${S3_BUCKET_NAME}"
 cd dist
-awslocal s3 cp . "s3://${S3_BUCKET_NAME}" --recursive > /tmp/$$.aws.s3.log 2>&1
+${AWS_CLI_BIN} s3 cp . "s3://${S3_BUCKET_NAME}" --recursive > /tmp/$$.aws.s3.log 2>&1
 if [ $? -ne 0 ]; then
     echo "Error during copy to s3.  aws cli log:"
     cat /tmp/$$.aws.s3.log
@@ -37,7 +37,7 @@ fi
 #####################################################################
 # INVALIDATE CLOUDFRONT DISTRIBUTION CACHE
 echo "Invalidating cloudfront distribution cache: ${CLOUDFRONT_DISTRIBUTION_ID}"
-"${AWS_CLI_BIN}" cloudfront create-invalidation \
+${AWS_CLI_BIN} cloudfront create-invalidation \
     --distribution-id "${CLOUDFRONT_DISTRIBUTION_ID}" \
     --paths "/*" > /tmp/$$.aws.cloudfront.log 2>&1
 
