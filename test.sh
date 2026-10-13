@@ -15,7 +15,7 @@ SESSION_TABLE=step-up-auth-session
 
 output() {
   lstk aws cloudformation describe-stacks \
-    --query "Stacks[].Outputs[?OutputKey=='$1'].OutputValue | [0]" --output text
+    --query "Stacks[].Outputs[] | [?OutputKey=='$1'].OutputValue | [0]" --output text
 }
 
 USER_POOL_ID=$(output UserPoolId)
@@ -23,6 +23,10 @@ CLIENT_ID=$(output UserPoolClientId)
 API=$(output StageUrl)
 API=${API%/}
 echo "User pool: $USER_POOL_ID, client: $CLIENT_ID, API: $API"
+if [ -z "$USER_POOL_ID" ] || [ "$USER_POOL_ID" = "None" ] || [ -z "$API" ] || [ "$API" = "None" ]; then
+  echo "Test failed: stack outputs are missing, run make deploy first"
+  exit 1
+fi
 
 # Print the status code, then the body, of a request to the API
 call() {
