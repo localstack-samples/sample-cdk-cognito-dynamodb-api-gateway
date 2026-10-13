@@ -10,14 +10,20 @@ usage:
 ## Install dependencies
 install:
 		@which lstk || npm install -g @localstack/lstk
+		@which cdk || npm install -g aws-cdk
+		@which yarn || npm install -g yarn
 
-# Deploy the infrastructure
+## Build the Lambda functions and the web app
 build:
 		cd deployment && ./build.sh;
 
 ## Deploy the infrastructure
 deploy:
 		cd deployment && ./deploy-local.sh;
+
+## Test the step-up flow through the deployed API
+test:
+		./test.sh
 
 ## Start LocalStack in detached mode
 start:
@@ -33,4 +39,4 @@ stop:
 logs:
 		@lstk logs > logs.txt
 
-.PHONY: usage install run start stop logs
+.PHONY: usage install build deploy test start stop logs
