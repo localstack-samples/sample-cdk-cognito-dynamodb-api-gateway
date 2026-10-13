@@ -49,7 +49,7 @@ export class LambdaStack extends cdk.Stack {
 
     (this.stepUpInitiateFunc.node.defaultChild as CfnFunction).addPropertyOverride(
       'Runtime',
-      'nodejs18.x',
+      'nodejs22.x',
     );
 
     // ----------------------------------------
@@ -77,7 +77,7 @@ export class LambdaStack extends cdk.Stack {
 
     (this.stepUpChallengeFunc.node.defaultChild as CfnFunction).addPropertyOverride(
       'Runtime',
-      'nodejs18.x',
+      'nodejs22.x',
     );
 
     // ----------------------------------------
@@ -103,7 +103,7 @@ export class LambdaStack extends cdk.Stack {
 
     (this.stepUpSampleApiFunc.node.defaultChild as CfnFunction).addPropertyOverride(
       'Runtime',
-      'nodejs18.x',
+      'nodejs22.x',
     );
   }
 }

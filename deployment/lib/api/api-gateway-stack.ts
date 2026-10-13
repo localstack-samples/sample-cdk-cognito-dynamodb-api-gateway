@@ -65,15 +65,22 @@ export class ApiGatewayStack extends cdk.Stack {
 
     (stepUpAuthorizerFunc.node.defaultChild as CfnFunction).addPropertyOverride(
       'Runtime',
-      'nodejs18.x',
+      'nodejs22.x',
     );
 
     const requestAuthorizer = new apigateway.RequestAuthorizer(this, 'step-up-authorizer', {
       identitySources: [apigateway.IdentitySource.header('Authorization')],
       handler: stepUpAuthorizerFunc,
       assumeRole: props.apigatewayLambdaAuthorizerRole,
-      // resultsCacheTtl: cdk.Duration.seconds(0)
     });
+    // The decision depends on the step-up session, which changes between
+    // requests with the same token, and the policy only covers the called
+    // method, so cached results must not be reused. Set on the L1 resource
+    // because resultsCacheTtl expects a Duration from another @aws-cdk/core copy.
+    (requestAuthorizer.node.defaultChild as apigateway.CfnAuthorizer).addPropertyOverride(
+      'AuthorizerResultTtlInSeconds',
+      0,
+    );
 
     // ----------------------------------------
     //      step-up-auth api

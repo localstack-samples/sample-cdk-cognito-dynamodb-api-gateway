@@ -109,6 +109,24 @@ Once you have confirmed your Account, you can sign in to the application with yo
 
 ![Step-up auth sample web client showcasing the session information after a successful sign-in](images/app-interface.png)
 
+### Testing the step-up flow from the command line
+
+To run the step-up flow against the deployed API without a browser, run:
+
+```shell
+make test
+```
+
+The `test.sh` script:
+
+- creates a Cognito user and signs in with `USER_PASSWORD_AUTH`
+- checks that `GET /info` returns 401 without a token, 403 with a malformed token and 200 with the access token
+- adds a `STEP_UP_REQUIRED` rule for `/transfer` to the `step-up-auth-setting` table, and checks that `POST /transfer` returns 401 and the authorizer records a `STEP_UP_REQUIRED` session in `step-up-auth-session`
+- calls `/initiate-auth`, associates a software token (TOTP) with the user and answers the challenge on `/respond-to-challenge` with a generated code
+- checks that the session is now `STEP_UP_COMPLETED` and that `POST /transfer` returns 200
+
+The script removes the rule and the user when it finishes. The same steps run in CI on every pull request.
+
 ## Learn more
 
 The sample application is based on a [public AWS sample app](https://github.com/aws-samples/step-up-auth) that deploys a Step-up workflow engine on AWS. See these AWS blog posts for more details: 

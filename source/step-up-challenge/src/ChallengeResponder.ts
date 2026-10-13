@@ -111,7 +111,7 @@ class ChallengeResponder {
       retrievedSession.stepUpStatus=newStatus;
       const now = new Date();
       //Update the session entry in Dynamo
-      client.updateSession(retrievedSession,now.toISOString());
+      await client.updateSession(retrievedSession, now.toISOString());
     } else {
       console.log(`Issue updating Session Table - Record Missing.`);
       return false;
